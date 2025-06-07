@@ -1,0 +1,18 @@
+:root {
+    --primary-brand: #ff42ec;
+    --secondary-brand: #FF10E7;
+    --gradient-brand-1: #902B40;
+    --gradient-brand-2: #791E32;
+
+    --primary-text: #ffffff;
+    --secondary-text: #888888;
+    --tertiary-text: #cccccc;
+    --primary-brand-text: #ffffff;
+    
+    --graph-1: #006efa;
+
+    --surface-1: #222222;
+    --surface-2: #111111;
+
+    --border-radius: 16px;
+}

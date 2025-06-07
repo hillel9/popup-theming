@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Theming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-container">
+        <aside class="editor">
+            <h2>Theme Studio</h2>
+            <p>Use the controls below to customize the theme of the preview page.</p>
+            <form>
+                <div class="form-group">
+                    <label for="primary-color">Primary Color</label>
+                    <input type="color" id="primary-color-picker" name="primary-color-picker" value="#006efa">
+                </div>
+                <div class="form-group">
+                    <label>Color Scheme</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="monochromatic" name="background-style" value="monochromatic" checked>
+                            <label for="monochromatic">Monochromatic</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="complementary" name="background-style" value="complementary">
+                            <label for="complementary">Complementary</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="analog" name="background-style" value="analog">
+                            <label for="analog">Analog</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="lucky" name="background-style" value="lucky">
+                            <label for="lucky">I Feel Lucky</label>
+                        </div>
+                    </div>
+                    <button type="button" id="try-again-btn" class="try-again-btn hidden">Try Another Lucky Color</button>
+                </div>
+                <div class="form-group">
+                    <label for="theme-select">Theme</label>
+                    <select id="theme-select" name="theme-select">
+                        <option value="light">Light</option>
+                        <option value="dark" selected>Dark</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pattern-select">Pattern</label>
+                    <select id="pattern-select" name="pattern-select">
+                        <option value="none">No Pattern</option>
+                        <option value="dots">Dots</option>
+                        <option value="wood">Wood</option>
+                        <option value="lines">Lines</option>
+                        <option value="mural">Mural</option>
+                    </select>
+                </div>
+                <div class="form-group" id="pattern-opacity-group">
+                    <label for="pattern-opacity">Pattern Opacity</label>
+                    <input type="range" id="pattern-opacity" name="pattern-opacity" min="0" max="100" value="30" step="5">
+                    <div class="range-value"><span id="opacity-value">30</span>%</div>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="show-theme-btn" class="btn btn-secondary">Export Theme</button>
+                </div>
+            </form>
+        </aside>
+        <div class="preview" id="stage-glow">
+            <div class="pattern-overlay" id="pattern-overlay"></div>
+            <div class="top-layer" id="flare"></div>
+            <header>
+                <div class="header-content">
+                    <img src="img/avatar.png" alt="popup.fm logo" class="header-logo">
+                    <h1>popup.fm</h1>
+                </div>
+            </header>
+            <div class="page-wrapper">
+                <main class="container">
+                    <div class="main-content">
+                        <div class="top-pane">
+                            <video class="background-video" autoplay loop muted playsinline>
+                                <source src="foals.mp4" type="video/mp4">
+                            </video>
+                            <div class="content">
+                                <h2>Main Content</h2>
+                                <p>This is the main content area. It will expand to fill the available space. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+                            </div>
+                        </div>
+                        <div class="bottom-pane">
+                            <div class="product-info">
+                                <h3 class="product-title">More Morby T-Shirt</h3>
+                                <p class="product-details">100% Cotton • Organic • Vegan friendly</p>
+                            </div>
+                            <button class="btn btn-primary">Shop</button>
+                        </div>
+                    </div>
+                    <aside class="sidebar">
+                        <div class="sidebar-header">
+                            <button class="tab-btn active">Chat</button>
+                            <button class="tab-btn">Shop</button>
+                            <button class="tab-btn">Activity</button>
+                        </div>
+                        <div class="comments-list">
+                            <div class="comment">
+                                <p><strong>LeoVibes:</strong> Whoever's doing visuals, give them a raise.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>AntidoteQueen:</strong> THEY'RE OPENING WITH "Spanish Sahara"?! I'm not emotionally ready 😭🔥</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>NinaFromLeeds:</strong> I was at this show!! I'm reliving it in HD and sobbing</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>AntidoteQueen:</strong> The build-up on this one always gives me chills. Straight goosebump</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>NinaFromLeeds:</strong> Watching this with my dad. He saw them at Reading '08 and now I'm crying lol</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>anthony:</strong> Foals never miss. NEVER.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>HolyFireForever:</strong> That lighting setup is INSANE.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>MathRockMartha:</strong> Genuinely the best live band in the world. No debate.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>Eric:</strong> I swear every live version of "Providence" is a religious experience.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>LeoVibes:</strong> Jimmy's guitar tone is unreal tonight.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>SaintCicada:</strong> bro the way this BASSLINE just slinks along 🔥</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>MathRockMartha:</strong> They're so tight.</p>
+                            </div>
+                            <div class="comment">
+                                <p><strong>anthony:</strong> Yannis stage-diving in 3… 2… 1… 😱</p>
+                            </div>
+                        </div>
+                        <div class="comment-input-section">
+                            <input type="text" class="comment-input input-text" placeholder="Add a comment...">
+                            <button class="btn btn-secondary">Post</button>
+                        </div>
+                    </aside>
+                </main>
+            </div>
+        </div>
+    </div>
+    <div id="theme-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Theme Export</h2>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <div id="theme-object-display" class="modal-body">
+                <!-- Theme object will be rendered here -->
+            </div>
+            <div class="modal-footer">
+                <button id="copy-json-btn" class="btn btn-secondary">Copy JSON</button>
+            </div>
+        </div>
+    </div>
+    <script src="utilities.js"></script>
+    <script src="functions.js"></script>
+
+
+</body>
+</html>
