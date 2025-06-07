@@ -143,6 +143,10 @@ header {
     display: flex;
 }
 
+.stage-content {
+    opacity: 0;
+}
+
 .background-video {
     position: absolute;
     top: 50%;

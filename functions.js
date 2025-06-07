@@ -177,7 +177,8 @@ function gradientBrand1(color){
 
     if(backgroundStyleInputs[1].checked){
         saturation = 16;
-    }else{
+    }
+    else{
         saturation = 40;
     }
 
@@ -202,7 +203,8 @@ function gradientBrand2(color){
 
     if(backgroundStyleInputs[1].checked){
         saturation = 16;
-    }else{
+    }
+    else{
         saturation = 40;
     }
 
