@@ -173,17 +173,19 @@ header {
 
 .artist-card h3 {
     margin: 0;
-    color: var(--primary-text);
+    color: #ffffff;
     font-size: 48px; line-height: 100%;
     font-weight: 700;
     z-index: 2;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
 }
 
 .artist-card p {
     margin: 0;
-    color: var(--primary-text);
+    color: #ffffff;
     z-index: 2;
     font-size: 18px;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
 }
 
 .stage-content {
