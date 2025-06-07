@@ -44,47 +44,31 @@ backgroundStyleInputs.forEach(input => {
     }
 });
 
-// Add change event listener to pattern select
-patternSelect.onchange = function() {
-    switch(patternSelect.value){
-        case "none":
-            patternOverlay.style.display = 'none';
-            patternOpacityGroup.style.display = 'none';
-            break;
-        case "dots":
-            patternOverlay.style.display = 'block';
-            patternOverlay.classList.add('pattern-overlay-dots');
-            patternOverlay.classList.remove('pattern-overlay-wood');
-            patternOverlay.classList.remove('pattern-overlay-lines');
-            patternOverlay.classList.remove('pattern-overlay-mural');
-            patternOpacityGroup.style.display = 'block';
-            break;
-        case "wood":
-            patternOverlay.style.display = 'block';
-            patternOverlay.classList.add('pattern-overlay-wood');
-            patternOverlay.classList.remove('pattern-overlay-dots');
-            patternOverlay.classList.remove('pattern-overlay-mural');
-            patternOverlay.classList.remove('pattern-overlay-lines');
-            patternOpacityGroup.style.display = 'block';
-            break;
-        case "lines":
-            patternOverlay.style.display = 'block';
-            patternOverlay.classList.add('pattern-overlay-lines');
-            patternOverlay.classList.remove('pattern-overlay-dots');
-            patternOverlay.classList.remove('pattern-overlay-wood');
-            patternOverlay.classList.remove('pattern-overlay-mural');
-            patternOpacityGroup.style.display = 'block';
-            break;
-        case "mural":
-            patternOverlay.style.display = 'block';
-            patternOverlay.classList.add('pattern-overlay-mural');
-            patternOverlay.classList.remove('pattern-overlay-dots');
-            patternOverlay.classList.remove('pattern-overlay-wood');
-            patternOverlay.classList.remove('pattern-overlay-lines');
-            patternOpacityGroup.style.display = 'block';
-            break;
+const patternClasses = [
+    'pattern-overlay-dots',
+    'pattern-overlay-wood',
+    'pattern-overlay-lines',
+    'pattern-overlay-mural',
+    'pattern-overlay-charlie-brown'
+  ];
+  
+  patternSelect.onchange = function () {
+    const selected = patternSelect.value;
+  
+    if (selected === "none") {
+      patternOverlay.style.display = 'none';
+      patternOpacityGroup.style.display = 'none';
+    } else {
+      patternOverlay.style.display = 'block';
+      patternOpacityGroup.style.display = 'block';
+  
+      // Remove all existing pattern classes
+      patternClasses.forEach(cls => patternOverlay.classList.remove(cls));
+  
+      // Add the selected pattern class
+      patternOverlay.classList.add(`pattern-overlay-${selected}`);
     }
-}
+  };
 
 // Add change event listener to pattern opacity
 patternOpacity.oninput = function() {

@@ -59,6 +59,11 @@ body {
     background-size: 400px 400px;
 }
 
+.pattern-overlay-charlie-brown{
+    background: url("img/charlie-brown.png") repeat;
+    background-size: 20px 12px;
+}
+
 .top-layer {
     position: absolute;
     top: 0;
@@ -140,7 +145,48 @@ header {
     border-radius: var(--border-radius);
     position: relative;
     overflow: hidden;
+}
+
+.artist-card {
+    position: absolute;
+    bottom: 48px;
+    left: 48px;
+    padding: 24px;
+    backdrop-filter: blur(24px);
+    border-radius: 24px;
     display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+    opacity: 0;
+    animation: artistCardAnimation 16s infinite;
+}
+
+.artist-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--secondary-brand);
+    opacity: 0.2;
+    backdrop-filter: blur(24px);
+    border-radius: 24px;
+    z-index: -1;
+}
+
+.artist-card h3 {
+    margin: 0;
+    color: var(--primary-text);
+    font-size: 32px; line-height: 100%;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.artist-card p {
+    margin: 0;
+    color: var(--primary-text);
+    z-index: 2;
 }
 
 .stage-content {
@@ -398,5 +444,28 @@ html, body {
 
 .comment-input{
     flex-grow: 1;
+}
+
+@keyframes artistCardAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    3% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    53% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(0);
+    }
 }
 
