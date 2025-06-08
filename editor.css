@@ -92,10 +92,6 @@ select:focus {
     border-color: var(--primary-brand);
 }
 
-.hidden {
-    display: none;
-}
-
 
 .form-group input[type="range"] {
     width: 100%;
@@ -206,6 +202,11 @@ input[type="range"]:focus {
     justify-content: flex-end;
 }
 
+.custom-color-picker {
+    display: flex;
+    gap: 16px;
+}
+
 .theme-item {
     display: flex;
     justify-content: space-between;
@@ -234,4 +235,8 @@ input[type="range"]:focus {
     height: 16px;
     border-radius: 4px;
     border: 1px solid #555;
+}
+
+.hidden {
+    display: none;
 }

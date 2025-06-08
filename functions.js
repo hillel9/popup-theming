@@ -29,17 +29,33 @@ const themeModal = document.getElementById('theme-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const themeObjectDisplay = document.getElementById('theme-object-display');
 const copyJsonBtn = document.getElementById('copy-json-btn');
+const customColorPicker = document.getElementById('custom-color-picker');
+const secondaryColorPicker = document.getElementById('secondary-color-picker');
+const backgroundColorPicker = document.getElementById('background-color-picker');
+
 
 // Add change event listener to primary color picker
 primaryColorPicker.onchange = function(){
-    runPreview();
+    updateTheme();
+}
+
+secondaryColorPicker.onchange = function(){
+    updateTheme();
+}
+
+backgroundColorPicker.onchange = function(){
+    updateTheme();
 }
 
 // Add change event listener to scheme select
 schemeSelect.onchange = function() {
-    runPreview();
+    updateTheme();
     tryAgainBtn.classList.toggle('hidden', schemeSelect.value !== 'lucky');
+    customColorPicker.classList.toggle('hidden', schemeSelect.value !== 'custom');
+    secondaryColorPicker.value = theme.secondaryBrand;
+    backgroundColorPicker.value = theme.surface1;
 }
+
 
 const patternClasses = [
     'pattern-overlay-dots',
@@ -76,12 +92,12 @@ patternOpacity.oninput = function() {
 
 // Add change event listener to theme select
 themeSelect.onchange = function() {
-    runPreview();
+    updateTheme();
 }
 
 // Add click event listener to try again button
 tryAgainBtn.onclick = function() {
-    runPreview();
+    updateTheme();
 }
 
 function modeSwitcher(l,d){
@@ -95,10 +111,23 @@ function modeSwitcher(l,d){
     return output;
   }
 
-// Run preview
-function runPreview() {
+// updateTheme
+function updateTheme() {
     const color = primaryColorPicker.value;
-
+    if(schemeSelect.value == "custom"){
+        theme.primaryBrand = primary(color);
+        theme.secondaryBrand = secondary(secondaryColorPicker.value);
+        theme.gradientBrand1 = gradientBrand1(backgroundColorPicker.value);
+        theme.gradientBrand2 = gradientBrand2(backgroundColorPicker.value);
+        theme.surface1 = surface1(color);
+        theme.surface2 = surface2(color);
+        theme.primaryText = primaryText(color);
+        theme.secondaryText = secondaryText(color);
+        theme.tertiaryText = tertiaryText(color);
+        theme.primaryBrandText = primaryBrandText(color);
+        theme.graph1 = graph1(color);
+    }
+    else{
     theme.primaryBrand = primary(color);
     theme.secondaryBrand = secondary(color);
     theme.gradientBrand1 = gradientBrand1(color);
@@ -110,6 +139,7 @@ function runPreview() {
     theme.tertiaryText = tertiaryText(color);
     theme.primaryBrandText = primaryBrandText(color);
     theme.graph1 = graph1(color);
+    }
 
     root.style.setProperty('--primary-brand', theme.primaryBrand);
     root.style.setProperty('--secondary-brand', theme.secondaryBrand);
@@ -124,8 +154,8 @@ function runPreview() {
     root.style.setProperty('--graph-1', theme.graph1);
 }
 
-// Run preview
-runPreview();
+// Initial state
+updateTheme();
 
 
 // Modal functionality
