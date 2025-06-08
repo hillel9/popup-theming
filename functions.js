@@ -14,7 +14,7 @@ const theme = {
 
 const root = document.documentElement;
 const primaryColorPicker = document.getElementById('primary-color-picker');
-const backgroundStyleInputs = document.getElementsByName('background-style');
+const schemeSelect = document.getElementById('scheme-select');
 const tryAgainBtn = document.getElementById('try-again-btn');
 const themeSelect = document.getElementById('theme-select');
 const patternSelect = document.getElementById('pattern-select');
@@ -35,14 +35,11 @@ primaryColorPicker.onchange = function(){
     runPreview();
 }
 
-// Add change event listener to radio buttons
-backgroundStyleInputs.forEach(input => {
-    input.onchange = function() {
-        runPreview();
-        // Show/hide try again button based on selection
-        tryAgainBtn.classList.toggle('hidden', input.value !== 'lucky');
-    }
-});
+// Add change event listener to scheme select
+schemeSelect.onchange = function() {
+    runPreview();
+    tryAgainBtn.classList.toggle('hidden', schemeSelect.value !== 'lucky');
+}
 
 const patternClasses = [
     'pattern-overlay-dots',
@@ -100,184 +97,36 @@ function modeSwitcher(l,d){
 
 // Run preview
 function runPreview() {
-    root.style.setProperty('--primary-brand', primary(primaryColorPicker.value));
-    root.style.setProperty('--secondary-brand', secondary(primaryColorPicker.value));
-    root.style.setProperty('--gradient-brand-1', gradientBrand1(primaryColorPicker.value));
-    root.style.setProperty('--gradient-brand-2', gradientBrand2(primaryColorPicker.value));
-    root.style.setProperty('--surface-1', surface1(primaryColorPicker.value));
-    root.style.setProperty('--surface-2', surface2(primaryColorPicker.value));
-    root.style.setProperty('--primary-text', primaryText(primaryColorPicker.value));
-    root.style.setProperty('--secondary-text', secondaryText(primaryColorPicker.value));
-    root.style.setProperty('--primary-brand-text', primaryBrandText(primaryColorPicker.value));
-    root.style.setProperty('--graph-1', graph1(primaryColorPicker.value));
-    root.style.setProperty('--tertiary-text', tertiaryText(primaryColorPicker.value));
+    const color = primaryColorPicker.value;
+
+    theme.primaryBrand = primary(color);
+    theme.secondaryBrand = secondary(color);
+    theme.gradientBrand1 = gradientBrand1(color);
+    theme.gradientBrand2 = gradientBrand2(color);
+    theme.surface1 = surface1(color);
+    theme.surface2 = surface2(color);
+    theme.primaryText = primaryText(color);
+    theme.secondaryText = secondaryText(color);
+    theme.tertiaryText = tertiaryText(color);
+    theme.primaryBrandText = primaryBrandText(color);
+    theme.graph1 = graph1(color);
+
+    root.style.setProperty('--primary-brand', theme.primaryBrand);
+    root.style.setProperty('--secondary-brand', theme.secondaryBrand);
+    root.style.setProperty('--gradient-brand-1', theme.gradientBrand1);
+    root.style.setProperty('--gradient-brand-2', theme.gradientBrand2);
+    root.style.setProperty('--surface-1', theme.surface1);
+    root.style.setProperty('--surface-2', theme.surface2);
+    root.style.setProperty('--primary-text', theme.primaryText);
+    root.style.setProperty('--secondary-text', theme.secondaryText);
+    root.style.setProperty('--tertiary-text', theme.tertiaryText);
+    root.style.setProperty('--primary-brand-text', theme.primaryBrandText);
+    root.style.setProperty('--graph-1', theme.graph1);
 }
 
 // Run preview
 runPreview();
 
-// Add change event listener to comment input
-
-function primary(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-    //Processing
-
-    theme.primaryBrand = HSLToHex(hue, saturation, lightness);
-    return theme.primaryBrand;
-}
-
-function secondary(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    //Processing
-    if(backgroundStyleInputs[3].checked){
-        hue = randomHue();
-    }
-    saturation = saturation * 0.8;
-
-    lightness = 60; 
-    if(hue >= 40 && hue <= 180){
-        lightness = 40;
-    }
-    
-    theme.secondaryBrand = HSLToHex(hue, saturation, lightness);
-    return theme.secondaryBrand;
-}
-
-function gradientBrand1(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    //Processing
-    if(backgroundStyleInputs[1].checked){
-        hue = hue - 180;
-    }else if(backgroundStyleInputs[2].checked){
-        hue = (hue + 30) % 360; 
-    }else if(backgroundStyleInputs[3].checked){
-        hue = randomHue();
-    }
-
-    if(backgroundStyleInputs[1].checked){
-        saturation = 16;
-    }
-    else{
-        saturation = 40;
-    }
-
-    lightness = modeSwitcher(86, 24);
-
-    theme.gradientBrand1 = HSLToHex(hue, saturation, lightness);
-    return theme.gradientBrand1;
-}
-
-function gradientBrand2(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    //Processing
-    if(backgroundStyleInputs[1].checked){
-        hue = hue - 180;
-    }else if(backgroundStyleInputs[2].checked){
-        hue = (hue + 45) % 360;
-    }else if(backgroundStyleInputs[3].checked){
-        hue = randomHue();
-    }
-
-    if(backgroundStyleInputs[1].checked){
-        saturation = 16;
-    }
-    else{
-        saturation = 40;
-    }
-
-    lightness = modeSwitcher(90, 10);
-
-    theme.gradientBrand2 = HSLToHex(hue, saturation, lightness);
-    return theme.gradientBrand2;
-}
-
-function surface1(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    saturation = 20;
-    lightness = modeSwitcher(100, 4);
-
-    theme.surface1 = HSLToHex(hue, saturation, lightness);
-    return theme.surface1;
-}
-
-function surface2(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    saturation = 20;
-    lightness = modeSwitcher(94, 12);
-
-    theme.surface2 = HSLToHex(hue, saturation, lightness);
-    return theme.surface2;
-}
-
-function graph1(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    saturation = 20;
-    lightness = modeSwitcher(60, 40);
-
-    theme.graph1 = HSLToHex(hue, saturation, lightness);
-    return theme.graph1;
-}
-
-function primaryText(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    saturation = 20;
-    lightness = modeSwitcher(4, 100);
-
-    theme.primaryText = HSLToHex(hue, saturation, lightness);
-    return theme.primaryText;
-}
-
-function secondaryText(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    saturation = 20;
-    lightness = modeSwitcher(30, 80);
-
-    theme.secondaryText = HSLToHex(hue, saturation, lightness);
-    return theme.secondaryText;
-}
-
-function tertiaryText(color){
-    const HSL = hexToHSL(color);
-    let hue = HSL[0]; let saturation = HSL[1]; let lightness = HSL[2];
-
-    saturation = 20;
-    lightness = modeSwitcher(40, 70);
-
-    theme.tertiaryText = HSLToHex(hue, saturation, lightness);
-    return theme.tertiaryText;
-}
-
-function primaryBrandText(color){
-    const rgb = hexToRGB(color);
-    let hue = rgb[0]; let saturation = rgb[1]; let lightness = rgb[2];
-
-    const luminance = (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255;
-  
-    if (luminance > 0.5) {
-      theme.primaryBrandText = '#000000';
-    } else {
-      theme.primaryBrandText = '#ffffff';
-    }
-
-    return theme.primaryBrandText;
-}
 
 // Modal functionality
 showThemeBtn.addEventListener('click', () => {

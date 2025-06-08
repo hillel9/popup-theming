@@ -20,25 +20,14 @@
                     <input type="color" id="primary-color-picker" name="primary-color-picker" value="#006efa">
                 </div>
                 <div class="form-group">
-                    <label>Color Scheme</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="monochromatic" name="background-style" value="monochromatic" checked>
-                            <label for="monochromatic">Monochromatic</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="complementary" name="background-style" value="complementary">
-                            <label for="complementary">Complementary</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="analog" name="background-style" value="analog">
-                            <label for="analog">Analog</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="lucky" name="background-style" value="lucky">
-                            <label for="lucky">I Feel Lucky</label>
-                        </div>
-                    </div>
+                    <label for="scheme-select">Color Scheme</label>
+                    <select id="scheme-select" name="scheme-select">
+                        <option value="monochromatic" selected>Monochromatic</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="complementary">Complementary</option>
+                        <option value="analog">Analog</option>
+                        <option value="lucky">I Feel Lucky</option>
+                    </select>
                     <button type="button" id="try-again-btn" class="try-again-btn hidden">Try Another Lucky Color</button>
                 </div>
                 <div class="form-group">
@@ -173,7 +162,9 @@
             </div>
         </div>
     </div>
+    
     <script src="utilities.js"></script>
+    <script src="theme-processing.js"></script>
     <script src="functions.js"></script>
 
 
