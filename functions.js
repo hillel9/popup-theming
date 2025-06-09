@@ -10,6 +10,8 @@ const theme = {
     graph1: '',
     surface1: '',
     surface2: '',
+    pattern: 'none',
+    patternOpacity: '0',
 };
 
 const root = document.documentElement;
@@ -74,9 +76,10 @@ const patternClasses = [
     } else {
       patternOverlay.style.display = 'block';
       patternOpacityGroup.style.display = 'block';
-  
+      theme.pattern = selected;
       // Remove all existing pattern classes
       patternClasses.forEach(cls => patternOverlay.classList.remove(cls));
+      theme.patternOpacity = patternOpacity.value;
   
       // Add the selected pattern class
       patternOverlay.classList.add(`pattern-overlay-${selected}`);
@@ -88,6 +91,7 @@ patternOpacity.oninput = function() {
     const value = this.value;
     opacityValue.textContent = value;
     patternOverlay.style.opacity = value / 100;
+    theme.patternOpacity = value;
 }
 
 // Add change event listener to theme select
