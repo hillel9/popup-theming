@@ -23,7 +23,9 @@ body {
 }
 
 #flare {
-    background: linear-gradient(to bottom, var(--secondary-brand) 0%, rgba(0,0,0, 0) 100%);
+    background: var(--secondary-brand);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    mask-image: linear-gradient(to bottom, black, transparent); 
 }
 
 /* Pattern Overlay */
