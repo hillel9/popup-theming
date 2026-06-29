@@ -1,0 +1,364 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f5f7;
+    min-height: 100vh;
+    color: #1a1a2e;
+    padding: 16px;
+}
+
+/* Hero Banner */
+#hero {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 24px;
+    padding: 48px 32px 40px;
+    margin-bottom: 28px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-title {
+    position: relative;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+}
+
+
+.hero-players {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+}
+
+.hero-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.hero-avatar-wrapper {
+    position: relative;
+    width: 160px;
+    height: 210px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hero-avatar-wrapper:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border: none;
+}
+
+.hero-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.hero-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-score {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 0 2px 10px rgba(78, 205, 196, 0.4);
+}
+
+/* Toolbar */
+#toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    margin-bottom: 20px;
+}
+
+#rounds {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.round-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.round-btn:hover {
+    background: #eee;
+}
+
+.round-btn.active {
+    background: #333;
+    border-color: #333;
+    color: #fff;
+}
+
+/* Match Cards */
+#matches {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.match-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.2s;
+}
+
+.match-card.played {
+    border-color: #4ecdc4;
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.match-date {
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+.match-status {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.match-status.upcoming {
+    background: #f0f0f0;
+    color: #999;
+}
+
+.match-status.played {
+    background: #d4edda;
+    color: #155724;
+}
+
+.match-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.team-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    flex: 1;
+}
+
+.team-name:last-child {
+    text-align: right;
+}
+
+.vs-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.score-box {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f8f5;
+    border: 1px solid #4ecdc4;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #2a9d8f;
+}
+
+.score-box:empty {
+    display: none;
+}
+
+.score-separator {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.pen-info {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #856404;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+/* Predictions */
+.predictions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.prediction-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pred-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pred-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.pred-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1a1a2e;
+}
+
+.pred-result {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.prediction-item .value {
+    font-size: 0.9rem;
+    color: #1a1a2e;
+}
+
+/* Points badges */
+.points-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+.points-badge.pts-3 {
+    background: #d4edda;
+    color: #155724;
+}
+
+.points-badge.pts-1 {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.points-badge.pts-0 {
+    background: #ffe5e5;
+    color: #d63031;
+}
+
+/* Empty state */
+.empty {
+    text-align: center;
+    opacity: 0.5;
+    padding: 40px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px 0 10px;
+    opacity: 0.4;
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    #matches {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 480px) {
+    #hero {
+        padding: 32px 16px 28px;
+        border-radius: 16px;
+    }
+
+    .hero-title {
+        font-size: 1.6rem;
+        margin-bottom: 24px;
+    }
+
+    .hero-players {
+        gap: 20px;
+    }
+
+    .hero-avatar-wrapper {
+        width: 80px;
+        height: 110px;
+        border-radius: 12px;
+    }
+
+    .hero-score {
+        font-size: 2rem;
+    }
+
+    .team-name {
+        font-size: 0.85rem;
+    }
+}
