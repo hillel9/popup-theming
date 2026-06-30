@@ -1,8 +1,8 @@
 Round,Team1,Team2,Date,Hillel_Score1,Hillel_Score2,Hillel_Qualifier,Yannai_Score1,Yannai_Score2,Yannai_Qualifier,Noam_Score1,Noam_Score2,Noam_Qualifier,Result_Score1,Result_Score2,Result_Qualifier
 R32,South Africa,Canada,Jun-28,2,2,Canada,2,0,South Africa,1,0,Canada,0,1,Canada
-R32,Germany,Paraguay,Jun-29,2,0,Germany,5,0,Germany,2,1,Germany,,,
-R32,Netherlands,Morocco,Jun-29,2,3,Morocco,1,1,Morocco,2,2,Netherlands,,,
-R32,Brazil,Japan,Jun-29,2,1,Brazil,1,3,Japan,3,1,Brazil,,,
+R32,Germany,Paraguay,Jun-29,2,0,Germany,5,0,Germany,2,1,Germany,1,1,Paraguay
+R32,Netherlands,Morocco,Jun-29,2,3,Morocco,1,1,Morocco,2,2,Netherlands,1,1,Morocco
+R32,Brazil,Japan,Jun-29,2,1,Brazil,1,3,Japan,3,1,Brazil,2,1,Brazil
 R32,France,Sweden,Jun-30,3,0,France,5,1,France,4,1,France,,,
 R32,Ivory Coast,Norway,Jun-30,2,3,Norway,2,5,Norway,0,1,Norway,,,
 R32,Mexico,Ecuador,Jun-30,1,2,Ecuador,2,1,Mexico,1,0,Mexico,,,
