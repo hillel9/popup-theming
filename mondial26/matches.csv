@@ -9,9 +9,17 @@ R32,Mexico,Ecuador,Jun-30,1,2,Ecuador,2,1,Mexico,1,0,Mexico,2,0,Mexico
 R32,Belgium,Senegal,Jul-01,1,2,Senegal,1,3,Senegal,1,1,Senegal,3,2,Belgium
 R32,USA,Bosnia-Herzegovina,Jul-01,3,1,USA,1,3,Bosnia-Herzegovina,2,1,USA,2,0,USA
 R32,England,Congo DR,Jul-01,1,0,England,2,3,Congo DR,4,1,England,2,1,England
-R32,Spain,Austria,Jul-02,2,0,Spain,3,0,Spain,2,0,Spain,,,
-R32,Portugal,Croatia,Jul-02,2,1,Portugal,3,2,Portugal,2,2,Portugal,,,
-R32,Switzerland,Algeria,Jul-02,2,0,Switzerland,1,0,Switzerland,2,0,Switzerland,,,
+R32,Spain,Austria,Jul-02,2,0,Spain,3,0,Spain,2,0,Spain,3,0,Spain
+R32,Portugal,Croatia,Jul-02,2,1,Portugal,3,2,Portugal,2,2,Portugal,2,1,Portugal
+R32,Switzerland,Algeria,Jul-02,2,0,Switzerland,1,0,Switzerland,2,0,Switzerland,2,0,Switzerland
 R32,Argentina,Cape Verde,Jul-03,2,0,Argentina,3,1,Argentina,3,1,Argentina,,,
 R32,Australia,Egypt,Jul-03,3,1,Australia,3,0,Australia,0,2,Egypt,,,
 R32,Colombia,Ghana,Jul-03,1,1,Ghana,2,0,Colombia,2,0,Colombia,,,
+R16,Canada,Morocco,Jul-04,0,2,Morocco,,,,,,,,,
+R16,Paraguay,France,Jul-04,1,3,France,,,,,,,,,
+R16,Brazil,Norway,Jul-05,1,1,Brazil,,,,,,,,,
+R16,Mexico,England,Jul-05,1,1,Mexico,,,,,,,,,
+R16,USA,Belgium,Jul-05,2,2,USA,,,,,,,,,
+R16,Spain/Austria,Argentina/Cape Verde,Jul-06,,,,,,,,,,,,
+R16,Portugal/Croatia,Australia/Egypt,Jul-06,,,,,,,,,,,,
+R16,Switzerland/Algeria,Colombia/Ghana,Jul-06,,,,,,,,,,,,
