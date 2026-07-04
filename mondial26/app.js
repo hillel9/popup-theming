@@ -4,7 +4,7 @@ const POINTS_EXACT = 3;
 const POINTS_WINNER = 1;
 
 let matches = [];
-let currentRound = 'R32';
+let currentRound = 'R16';
 
 // CSV Parsing
 async function loadCSV() {
