@@ -4,7 +4,9 @@ const POINTS_EXACT = 3;
 const POINTS_WINNER = 1;
 
 let matches = [];
-let currentRound = 'R16';
+let currentRound = 'QF';
+
+const ROUND_LABELS = { R32: 'Round of 32', R16: 'Round of 16', QF: 'Quarter Finals', SF: 'Semi Finals', F: 'Final' };
 
 // CSV Parsing
 async function loadCSV() {
@@ -115,7 +117,7 @@ function renderRoundButtons() {
     const rounds = [...new Set(matches.map(m => m.Round))];
     const container = document.getElementById('rounds');
     container.innerHTML = rounds.map(r =>
-        `<button class="round-btn ${r === currentRound ? 'active' : ''}" data-round="${r}">${r}</button>`
+        `<button class="round-btn ${r === currentRound ? 'active' : ''}" data-round="${r}">${ROUND_LABELS[r] || r}</button>`
     ).join('');
 
     container.querySelectorAll('.round-btn').forEach(btn => {

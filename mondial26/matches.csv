@@ -20,6 +20,10 @@ R16,Paraguay,France,Jul-04,1,3,France,1,4,France,0,2,France,0,1,France
 R16,Brazil,Norway,Jul-05,1,1,Brazil,1,2,Norway,3,1,Brazil,1,2,Norway
 R16,Mexico,England,Jul-05,2,1,Mexico,1,3,England,0,1,England,2,3,England
 R16,USA,Belgium,Jul-05,2,2,USA,1,3,Belgium,1,2,USA,1,4,Belgium
-R16,Egypt,Argentina,Jul-06,1,3,Argentina,1,3,Argentina,0,3,Argentina,,,
+R16,Egypt,Argentina,Jul-06,1,3,Argentina,1,3,Argentina,0,3,Argentina,2,3,Argentina
 R16,Portugal,Spain,Jul-06,1,1,Spain,1,2,Spain,3,1,Portugal,0,1,Spain
 R16,Switzerland,Colombia,Jul-06,1,1,Colombia,1,2,Colombia,1,1,Switzerland,,,
+QF,France,Marocco,Jul-09,3,1,France,,,,,,,,,
+QF,Spain,Belgium,Jul-10,2,0,Spain,,,,,,,,,
+QF,Norway,England,Jul-12,1,2,England,,,,,,,,,
+QF,TBD,TBD,,,,,,,,,,,,,
