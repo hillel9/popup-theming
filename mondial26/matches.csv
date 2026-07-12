@@ -25,5 +25,6 @@ R16,Portugal,Spain,Jul-06,1,1,Spain,1,2,Spain,3,1,Portugal,0,1,Spain
 R16,Switzerland,Colombia,Jul-06,1,1,Colombia,1,2,Colombia,1,1,Switzerland,0,0,Switzerland
 QF,France,Marocco,Jul-09,3,1,France,4,2,France,3,1,France,2,0,France
 QF,Spain,Belgium,Jul-10,2,0,Spain,2,1,Spain,2,0,Spain,2,1,Spain
-QF,Norway,England,Jul-12,1,2,England,1,1,England,2,2,England,,,
-QF,Argentina,Switzerland,Jul-12,2,1,Argentina,2,0,Argentina,3,1,Argentina,,,
+QF,Norway,England,Jul-12,1,2,England,1,1,England,2,2,England,1,2,England
+QF,Argentina,Switzerland,Jul-12,2,1,Argentina,2,0,Argentina,3,1,Argentina,3,1,Argentina
+SF,France,Spain,Jul-14,,,,,,,,,,,,
