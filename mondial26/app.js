@@ -2,11 +2,14 @@
 
 const POINTS_EXACT = 3;
 const POINTS_WINNER = 1;
+const PLAYERS = ['Hillel', 'Yannai', 'Noam'];
+const AVATARS = { Hillel: 'hillel.jpeg', Yannai: 'yannai.jpeg', Noam: 'noam.png' };
 
 let matches = [];
-let currentRound = 'QF';
+let currentRound = 'F';
+let currentView = 'home';
 
-const ROUND_LABELS = { R32: 'Round of 32', R16: 'Round of 16', QF: 'Quarter Finals', SF: 'Semi Finals', F: 'Final' };
+const ROUND_LABELS = { R32: 'Round of 32', R16: 'Round of 16', QF: 'Quarter Finals', SF: 'Semi Finals', '3RD': '3rd Place', F: 'Final' };
 
 // CSV Parsing
 async function loadCSV() {
@@ -23,16 +26,16 @@ async function loadCSV() {
             return obj;
         });
 
-        render();
+        renderHome();
+        renderMatchesView();
     } catch (e) {
-        document.getElementById('matches').innerHTML = `
+        document.getElementById('stats-grid').innerHTML = `
             <div class="empty">Error: run <code>start.command</code> to launch the server</div>`;
     }
 }
 
 // Scoring - qualifier can be team name or 1/2
 function fuzzyMatch(a, b) {
-    // Check if two strings share a 3+ char substring
     a = a.toLowerCase();
     b = b.toLowerCase();
     if (a === b || a.includes(b) || b.includes(a)) return true;
@@ -55,7 +58,6 @@ function getWinner(score1, score2, qualifier, team1, team2) {
     const s1 = parseInt(score1);
     const s2 = parseInt(score2);
     if (isNaN(s1) || isNaN(s2)) return null;
-    // Qualifier is always the source of truth
     return resolveQualifier(qualifier, team1, team2);
 }
 
@@ -70,24 +72,18 @@ function calculatePoints(m, player) {
     const predQual = resolveQualifier(m[`${player}_Qualifier`], m.Team1, m.Team2);
     const resQual = resolveQualifier(m.Result_Qualifier, m.Team1, m.Team2);
 
-    // Exact score: compare sorted scores (order in CSV doesn't matter)
     const predHigh = Math.max(p1, p2), predLow = Math.min(p1, p2);
     const resHigh = Math.max(r1, r2), resLow = Math.min(r1, r2);
 
     if (predHigh === resHigh && predLow === resLow) {
         if (p1 === p2) {
-            // Draw — must also match qualifier for full points
             return predQual === resQual ? POINTS_EXACT : POINTS_WINNER;
         }
-        // Same score, same winner = exact
         if (predQual === resQual) return POINTS_EXACT;
-        // Same score but different winner = just correct score shape
         return 0;
     }
 
-    // Correct winner
     if (predQual && resQual && predQual === resQual) return POINTS_WINNER;
-
     return 0;
 }
 
@@ -100,8 +96,228 @@ function getTotalScore(player) {
     return total;
 }
 
-// Rendering
-function render() {
+// ===== STATS CALCULATIONS =====
+
+function getCorrectWinners(player) {
+    let count = 0;
+    matches.forEach(m => {
+        const pts = calculatePoints(m, player);
+        if (pts !== null && pts > 0) count++;
+    });
+    return count;
+}
+
+function getExactScores(player) {
+    let count = 0;
+    matches.forEach(m => {
+        const pts = calculatePoints(m, player);
+        if (pts === POINTS_EXACT) count++;
+    });
+    return count;
+}
+
+function getPointsByRound(player) {
+    const byRound = {};
+    matches.forEach(m => {
+        if (!byRound[m.Round]) byRound[m.Round] = 0;
+        const pts = calculatePoints(m, player);
+        if (pts !== null) byRound[m.Round] += pts;
+    });
+    return byRound;
+}
+
+function getBestRound(player) {
+    const byRound = getPointsByRound(player);
+    let best = null, bestPts = -1;
+    for (const [round, pts] of Object.entries(byRound)) {
+        if (pts > bestPts) { bestPts = pts; best = round; }
+    }
+    return { round: best, points: bestPts };
+}
+
+function getLongestStreak(player) {
+    let maxStreak = 0, current = 0;
+    matches.forEach(m => {
+        const pts = calculatePoints(m, player);
+        if (pts !== null && pts > 0) {
+            current++;
+            if (current > maxStreak) maxStreak = current;
+        } else if (pts !== null) {
+            current = 0;
+        }
+    });
+    return maxStreak;
+}
+
+function getZeroCount(player) {
+    let count = 0;
+    matches.forEach(m => {
+        const pts = calculatePoints(m, player);
+        if (pts === 0) count++;
+    });
+    return count;
+}
+
+function getCorrectFinalWinner(player) {
+    const final = matches.find(m => m.Round === 'F');
+    if (!final) return false;
+    const pts = calculatePoints(final, player);
+    return pts !== null && pts > 0;
+}
+
+function getCorrectChampion(player) {
+    const final = matches.find(m => m.Round === 'F');
+    if (!final) return false;
+    const predQual = resolveQualifier(final[`${player}_Qualifier`], final.Team1, final.Team2);
+    const resQual = resolveQualifier(final.Result_Qualifier, final.Team1, final.Team2);
+    return predQual === resQual && predQual !== 0;
+}
+
+function getKnockoutAccuracy(player) {
+    let correct = 0, total = 0;
+    matches.filter(m => m.Round !== 'R32').forEach(m => {
+        const pts = calculatePoints(m, player);
+        if (pts !== null) {
+            total++;
+            if (pts > 0) correct++;
+        }
+    });
+    return { correct, total, pct: total > 0 ? Math.round(correct / total * 100) : 0 };
+}
+
+// ===== HOME RENDERING =====
+
+function renderHome() {
+    renderPredictionPodium();
+    renderStats();
+}
+
+function renderPredictionPodium() {
+    const scores = PLAYERS.map(p => ({ name: p, score: getTotalScore(p), avatar: AVATARS[p] }));
+    scores.sort((a, b) => b.score - a.score);
+
+    const container = document.getElementById('pred-podium');
+    // Order: 2nd, 1st, 3rd for podium layout
+    const ordered = [scores[1], scores[0], scores[2]];
+    const places = ['second', 'first', 'third'];
+    const medals = ['🥈', '🥇', '🥉'];
+
+    container.innerHTML = ordered.map((p, i) => `
+        <div class="pred-podium-spot ${places[i]}">
+            <div class="pred-podium-medal">${medals[i]}</div>
+            <img src="${p.avatar}" class="pred-podium-avatar">
+            <div class="pred-podium-name">${p.name}</div>
+            <div class="pred-podium-score">${p.score} pts</div>
+            <div class="pred-podium-block">${places[i] === 'first' ? '1' : places[i] === 'second' ? '2' : '3'}</div>
+        </div>
+    `).join('');
+}
+
+function renderStats() {
+    const container = document.getElementById('stats-grid');
+
+    // Correct winners leaderboard
+    const winnersData = PLAYERS.map(p => ({ name: p, count: getCorrectWinners(p), avatar: AVATARS[p] }));
+    winnersData.sort((a, b) => b.count - a.count);
+
+    // Exact scores
+    const exactData = PLAYERS.map(p => ({ name: p, count: getExactScores(p), avatar: AVATARS[p] }));
+    exactData.sort((a, b) => b.count - a.count);
+
+    // Streaks
+    const streakData = PLAYERS.map(p => ({ name: p, streak: getLongestStreak(p), avatar: AVATARS[p] }));
+    streakData.sort((a, b) => b.streak - a.streak);
+
+    // Knockout accuracy
+    const koData = PLAYERS.map(p => ({ name: p, ...getKnockoutAccuracy(p), avatar: AVATARS[p] }));
+    koData.sort((a, b) => b.pct - a.pct);
+
+    // Zero count (most wrong)
+    const zeroData = PLAYERS.map(p => ({ name: p, count: getZeroCount(p), avatar: AVATARS[p] }));
+    zeroData.sort((a, b) => b.count - a.count);
+
+    // Per-round breakdown
+    const rounds = [...new Set(matches.map(m => m.Round))];
+    const roundBreakdown = PLAYERS.map(p => ({ name: p, rounds: getPointsByRound(p), avatar: AVATARS[p] }));
+
+    // Who predicted the champion
+    const championPredictors = PLAYERS.filter(p => getCorrectChampion(p));
+
+    container.innerHTML = `
+        ${renderStatCard('Correct Winners', 'Most games with the right winner guessed', winnersData.map(d => `
+            <div class="stat-row">
+                <img src="${d.avatar}" class="stat-avatar">
+                <span class="stat-name">${d.name}</span>
+                <span class="stat-value">${d.count} / ${matches.length}</span>
+            </div>
+        `).join(''))}
+
+        ${renderStatCard('Exact Score Predictions', 'Perfect score + winner predictions', exactData.map(d => `
+            <div class="stat-row">
+                <img src="${d.avatar}" class="stat-avatar">
+                <span class="stat-name">${d.name}</span>
+                <span class="stat-value">${d.count}</span>
+            </div>
+        `).join(''))}
+
+        ${renderStatCard('Longest Winning Streak', 'Consecutive correct winner guesses', streakData.map(d => `
+            <div class="stat-row">
+                <img src="${d.avatar}" class="stat-avatar">
+                <span class="stat-name">${d.name}</span>
+                <span class="stat-value">${d.streak} games</span>
+            </div>
+        `).join(''))}
+
+        ${renderStatCard('Most Wrong Predictions', 'Games with 0 points', zeroData.map(d => `
+            <div class="stat-row">
+                <img src="${d.avatar}" class="stat-avatar">
+                <span class="stat-name">${d.name}</span>
+                <span class="stat-value">${d.count}</span>
+            </div>
+        `).join(''))}
+
+        <div class="stat-card full-width">
+            <div class="stat-card-header">
+                <h3 class="stat-card-title">Points Per Round</h3>
+                <p class="stat-card-subtitle">Breakdown by tournament stage</p>
+            </div>
+            <div class="stat-card-body">${`
+            <table class="round-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        ${rounds.map(r => `<th>${r}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${roundBreakdown.map(p => `
+                        <tr>
+                            <td><img src="${p.avatar}" class="stat-avatar"> ${p.name}</td>
+                            ${rounds.map(r => `<td class="round-pts">${p.rounds[r] || 0}</td>`).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `}</div>
+        </div>
+    `;
+}
+
+function renderStatCard(title, subtitle, content) {
+    return `
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <h3 class="stat-card-title">${title}</h3>
+                <p class="stat-card-subtitle">${subtitle}</p>
+            </div>
+            <div class="stat-card-body">${content}</div>
+        </div>
+    `;
+}
+
+// ===== MATCHES VIEW RENDERING =====
+
+function renderMatchesView() {
     renderScoreboard();
     renderRoundButtons();
     renderMatches();
@@ -123,7 +339,7 @@ function renderRoundButtons() {
     container.querySelectorAll('.round-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             currentRound = btn.dataset.round;
-            render();
+            renderMatchesView();
         });
     });
 }
@@ -150,8 +366,6 @@ function renderMatchCard(m) {
     const ptsY = calculatePoints(m, 'Yannai');
     const ptsN = calculatePoints(m, 'Noam');
 
-    // Format a prediction/result as "Winner (X-Y)" or "Winner (X-X, pen)"
-    // Qualifier is the source of truth for who wins
     const formatScore = (score1, score2, qualifier, team1, team2) => {
         const s1 = parseInt(score1);
         const s2 = parseInt(score2);
@@ -220,5 +434,21 @@ function renderMatchCard(m) {
     `;
 }
 
+// ===== NAVIGATION =====
+
+function switchView(view) {
+    currentView = view;
+    document.getElementById('home-view').style.display = view === 'home' ? 'block' : 'none';
+    document.getElementById('matches-view').style.display = view === 'matches' ? 'block' : 'none';
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === view);
+    });
+}
+
 // Init
-document.addEventListener('DOMContentLoaded', loadCSV);
+document.addEventListener('DOMContentLoaded', () => {
+    loadCSV();
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchView(btn.dataset.view));
+    });
+});
